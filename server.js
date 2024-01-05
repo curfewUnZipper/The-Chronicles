@@ -23,7 +23,9 @@ const newsSchema = new mongoose.Schema({
     title: String,
     content: String,
     image: String,
-    time: String
+    time: String,
+    like: { type: Number, default:'0' },
+    dislike: { type: Number, default:'0' }
     
 });
 const News = mongoose.model('News', newsSchema);
@@ -50,12 +52,24 @@ app.get('/', (req, res) => {
    res.sendFile(path.join(__dirname,"news.html"))
 });
 // get pussy put delete
+
+app.get("/api/upload", async (req,res) => {
+    const newsList = await News.find();
+    // console.log(newsList)
+    res.json(newsList);
+})
+
+
+
+//------------------------------------------------post----------------------------------------------------
+
 // Example route for uploading news
 app.post('/api/upload', async (req, res) => {
     const { title, content, image} = req.body;   
     let time = new Date().toLocaleString();
     try {
-        const newsItem = new News({ title, content, image, time });
+        let newsItem = new News({ title, content, image, time });
+        console.log(typeof newsItem,"\n",newsItem)
         await newsItem.save();
         res.redirect("/")
     } catch (error) {
@@ -63,10 +77,23 @@ app.post('/api/upload', async (req, res) => {
     }
 });
 
-app.get("/api/upload", async (req,res) => {
-    const newsList = await News.find();
-    res.json(newsList);
-})
+//----------------STATIC POSTS ONE TIME---------------------
+async function dyn(){
+    // for ()
+    let time = new Date().toLocaleString();
+    let check = await News.find({title:"gg"})
+    if (check.length==0){
+
+        let newsItem = new News({ title:"gg", 
+        content:"testing this one to ad the like button and use it on the static generated posts as well", 
+        time });
+        await newsItem.save();
+    }
+}
+
+dyn()
+
+
 
 
 app.post("/delete", async (req,res) => {   

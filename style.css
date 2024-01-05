@@ -6,6 +6,15 @@
     font-size: 20px;
     
 }
+
+/* trial for like changes by atyab */
+
+.post-rating-count input[type="text"]{
+    fill: none;
+    background: transparent;
+    border: none;
+    width:3rem;
+}
 /* -------------------Navigation bar------------------ */
 header{
     background-color: indianred;

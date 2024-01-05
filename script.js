@@ -23,29 +23,29 @@ document.querySelectorAll(".post1").forEach(post => {
 
 	ratings.forEach(rating => {
 		const button = rating.querySelector(".post-rating-button");
-		const count = rating.querySelector(".post-rating-count");
-
+		const count = rating.querySelector(".post-rating-count input[type='text']");
+		// console.log(Number(count.value)+1)
 		button.addEventListener("click", async () => {
 			if (rating.classList.contains("post-rating-selected")) {
 				return;
 			}
 
-			count.textContent = Number(count.textContent) + 1;
+			count.value = Number(count.value) + 1;
 
 			ratings.forEach(rating => {
 				if (rating.classList.contains("post-rating-selected")) {
-					const count = rating.querySelector(".post-rating-count");
+					const count = rating.querySelector(".post-rating-count input");
 
-					count.textContent = Math.max(0, Number(count.textContent) - 1);
+					count.value = Math.max(0, Number(count.value) - 1);
 					rating.classList.remove("post-rating-selected");
 				}
 			});
 
 			rating.classList.add("post-rating-selected");
 
-			const likeOrDislike = likeRating === rating ? "like" : "dislike";
-			const response = await fetch(`/posts/${postId}/${likeOrDislike}`);
-			const body = await response.json();
+			// const likeOrDislike = likeRating === rating ? "like" : "dislike";
+			// const response = await fetch(`/posts/${postId}/${likeOrDislike}`);
+			// const body = await response.json();
 		});
 	});
 });
