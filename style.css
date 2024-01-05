@@ -1,0 +1,155 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family:sans-serif;
+    font-size: 20px;
+    
+}
+/* -------------------Navigation bar------------------ */
+header{
+    background-color: indianred;
+
+}
+li{
+    list-style:none;
+
+}
+a{
+    color:white;
+    text-decoration:none;
+
+}
+#navbar{
+    min-height:70px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 0 24px;
+    text-decoration: none;
+
+}
+.nav-menu{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:60px;
+    text-decoration: none;
+
+}
+#nav-braning{
+    font-size:2rem;
+    text-decoration: none;
+
+}
+#nav-link{
+    transition:0.4s ease;
+    text-decoration: none;
+    color:white;
+
+}
+#nav-link:hover{
+    color:black;
+    /* border:2px solid black;
+    padding:5px;
+    border-radius: 20px;
+    background-color: white; */
+
+}
+.navbar h2{
+    padding:0;
+    margin:0;
+}
+/* ---------------Hamburger(for mobile)------------ */
+.hamburger{
+    display:none;
+    cursor:pointer;
+    z-index: 10;
+
+}
+.bar{
+    display:block;
+    width:25px;
+    height:3px;
+    margin:5px auto;
+    -webkit-transition:all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background-color: white;
+    z-index: 10;
+}
+@media(max-width:768px)
+{
+    .hamburger{
+        display:block;
+    }
+    .hamburger .active .bar:nth-child(2){
+        opacity: 0;
+    }
+    .hamburger .active .bar:nth-child(1){
+       transform:translateY(8px) rotate(45deg);
+    }
+    .hamburger .active .bar:nth-child(3){
+        transform:translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu{
+        position:fixed;
+        left:-100%;
+        top:70px;
+        gap:0;
+        flex-direction: column;
+        background-color: indianred;
+        width:100%;
+        text-align:center;
+        transition:0.3s;
+        z-index: 10;
+    }
+    .nav-item{
+        margin:16px 0;
+    }
+    .nav-menu.active{
+        left:0;
+    }
+}
+/* ---------------Like-dislike--------------- */
+.post {
+	width: 400px;
+	font-family: 'Lexend', sans-serif;
+}
+
+.post-image {
+	display: block;
+	width: 100%;
+}
+
+.post-ratings-container {
+	display: flex;
+	justify-content: end;
+	padding: 12px 0;
+}
+
+.post-rating {
+	display: flex;
+	align-items: center;
+	cursor: default;
+}
+
+.post-rating:not(:last-child) {
+	margin-right: 12px;
+}
+
+.post-rating-selected > .post-rating-button,
+.post-rating-selected > .post-rating-count {
+	color: blue;
+}
+
+.post-rating-button {
+	margin-right: 6px;
+	cursor: pointer;
+	color: #555555;
+}
+
+.post-rating:not(.post-rating-selected) > .post-rating-button:hover {
+	color: #000000;
+}
+
+/* ------------------------Dynamic Posts------------------------------ */

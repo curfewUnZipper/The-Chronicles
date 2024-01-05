@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CollegeChronicle SMEC</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="master.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <header>
+            <nav id="navbar">
+                <h2  id="nav-branding"><b>CollegeChronicle SMEC</b><h2>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" id="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" id="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="events.html" id="nav-link">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="nav-link">Memes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="secret.html" id="nav-link">Upload</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <!-- <span class="bar"></span> -->
+                </div>
+            </nav>
+        </header>
+        
+<div class="jumbotron text-center"></div>
+
+    <form id="delete-form" action="/delete" method="post" name="Supriya" class="col-sm-4 col-md-11 col-lg-12" style="text-align: center; border:2px solid black; padding:25px; margin-bottom:50px; border-radius: 20px;  background-color: rgb(222, 240, 248); box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);" >
+
+    </form>
+
+
+    
+ 
+        <script src="/script.js"></script>
+        <script src="/app.js"></script>
+        <script>
+            fetchNews()
+            
+            function fetchNews() {
+              fetch('/api/upload')
+            .then(response => response.json())
+            .then(newsList => {
+                // Assuming you have a container with the id 'news-container'
+                let newsContainer = document.getElementById('delete-form');
+
+                // Clear previous content
+                newsContainer.innerHTML = '';
+
+                // Iterate through the news list and display each item
+                newsList.forEach(newsItem => {
+                    console.log(newsItem);
+                    const newsDiv = document.createElement('div');
+
+                    newsDiv.innerHTML = `
+                    <div class="articleform" style="border: 2px solid black; border-radius:20px;">
+                        <input type="checkbox" name="article" value=${newsItem._id}>
+                        <h2>${newsItem.title}</h2>
+                        <p>${newsItem.content}</p>
+                        <img src="/${newsItem.image}" alt="${newsItem.title} " style="width:500px; height:500px;">
+                    </div>
+                        `;
+                    newsContainer.appendChild(newsDiv);
+
+
+
+
+
+                });
+                let delbut = document.createElement("input");
+                     delbut.type="submit";
+                     delbut.value="Delete";
+                     
+                     let clrbut = document.createElement("input");
+                     clrbut.type="reset";
+                     clrbut.value="Clear";
+                    
+                     newsContainer.appendChild(delbut);
+                     newsContainer.appendChild(clrbut);
+            })
+            .catch(error => console.error('Error fetching news:', error));
+    }
+
+
+
+        </script>
+    </body>
+</html>
