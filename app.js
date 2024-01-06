@@ -43,17 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         //assigning likes and dislikes to static news
                 else{
-                    console.log(newsItem.title)
-                    let appointRating = document.querySelector(`input[name=${"lik"+newsItem._id}]`).value
-                    console.log("Earlier like:",appointRating)
-                    appointRating = newsItem.like.toString()
-                    console.log("Now like:",appointRating)
+                    document.querySelector(`input[name=${"lik"+newsItem._id}]`).value = newsItem.like.toString()
 
-                    appointRating = document.querySelector(`input[name=${"dis"+newsItem._id}]`).value
-                    console.log("Earlier dislike:",appointRating)
-                    appointRating = newsItem.dislike.toString()
-                    console.log("Now dislike:",appointRating,"\n\n\n")
-
+                    document.querySelector(`input[name=${"dis"+newsItem._id}]`).value = newsItem.dislike.toString()
                 }
                 });
             })
