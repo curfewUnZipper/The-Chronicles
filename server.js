@@ -51,16 +51,24 @@ let likeRecord = []
 app.get("/upload" , (req,res) =>{
     res.sendFile(path.join(__dirname,"secret.html"))
 })
+
+
 // Example route for retrieving news
 app.get('/', async (req, res) => {
-   likeRecord=[]
+   likeRecord={}
    let rec = await News.find()
+    // console.log("rec",rec[0])
    rec.forEach(article=>{
-    likeRecord.push({id:JSON.stringify(article._id).slice(1,JSON.stringify(article._id).length-1),like:article.like,dislike:article.dislike})
+    // console.log("article",article)
+    likeRecord["lik"+JSON.stringify(article._id).slice(1,JSON.stringify(article._id).length-1)] = article.like.toString();
+    likeRecord["dis"+JSON.stringify(article._id).slice(1,JSON.stringify(article._id).length-1)] = article.dislike.toString();
+
    })
-   console.log("LIKEREC",likeRecord)
+   
    res.sendFile(path.join(__dirname,"news.html"))
 });
+
+
 // get pussy put delete
 
 app.get("/api/upload", async (req,res) => {
@@ -109,26 +117,33 @@ dyn()
 
 
 app.post("/like",(req,res)=>{
-    console.log(req.body) 
-    
-    // let updateRecord = []
-    // let halfKeys = []
-    // Object.keys(req.body).forEach(thumb=>{   //getting ids of all posts, called half because like+dislike made it double
-    //     // console.log(thumb.slice(3))
-    //     if (thumb.startsWith('lik')){
-    //         halfKeys.push(thumb.slice(3))
-    //     }
-    // })
+    // console.log("UPDATEREC",req.body) 
+    // console.log("LIKEREC",likeRecord)
 
-    // halfKeys.forEach(post=>{     //creating a similar obj to store likes and dislike as in get('/') to compare and then update db
-    //     updateRecord.push({id:post,like:parseInt(req.body["lik"+post]),dislike:parseInt(req.body["dis"+post])})
-    // })
-    // console.log("UpdatedLikes:",updateRecord)
+    // comparing each object, if we find difference we update db
+    Object.keys(req.body).forEach(async thumb=>{
+        // console.log("req:",req.body[thumb],"saved:",likeRecord[thumb])
+        if (req.body[thumb] != likeRecord[thumb]){
+            // console.log(thumb.slice(3)) //id
+           //lik
+            if(thumb.slice(0,3)=="lik"){
+                // console.log("Like Update Mode")
+                let update = await News.findOneAndUpdate({_id:thumb.slice(3)},{like:req.body[thumb]});
+                // console.log("from DB",update)
+                likeRecord[thumb]=req.body[thumb]
+            }
+            else if(thumb.slice(0,3)=="dis"){
+                // console.log("Dislike Update Mode")
+                
+                let update = await News.findOneAndUpdate({_id:thumb.slice(3)},{dislike:req.body[thumb]});
+                // console.log("from DB",update)
+                likeRecord[thumb]=req.body[thumb]
+            }
+            
+        }
 
-    //comparing each object, if we find difference we update db
-    
-
-
+    })
+    res.status(204).send()
 })
 
 
