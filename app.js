@@ -40,6 +40,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     `;
                     document.querySelector(".overall").insertBefore(newsDiv,document.querySelector(".overall .container:first-of-type"));
                     }
+
+                        //assigning likes and dislikes to static news
+                else{
+                    console.log(newsItem.title)
+                    let appointRating = document.querySelector(`input[name=${"lik"+newsItem._id}]`).value
+                    console.log("Earlier like:",appointRating)
+                    appointRating = newsItem.like.toString()
+                    console.log("Now like:",appointRating)
+
+                    appointRating = document.querySelector(`input[name=${"dis"+newsItem._id}]`).value
+                    console.log("Earlier dislike:",appointRating)
+                    appointRating = newsItem.dislike.toString()
+                    console.log("Now dislike:",appointRating,"\n\n\n")
+
+                }
                 });
             })
             .catch(error => console.error('Error fetching news:', error));
