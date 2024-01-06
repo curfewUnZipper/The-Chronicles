@@ -42,10 +42,10 @@ document.querySelectorAll(".post1").forEach(post => {
 			});
 
 			rating.classList.add("post-rating-selected");
+			document.querySelector("form[action='/like'").submit()
+			
 
-			// const likeOrDislike = likeRating === rating ? "like" : "dislike";
-			// const response = await fetch(`/posts/${postId}/${likeOrDislike}`);
-			// const body = await response.json();
+
 		});
 	});
 });

@@ -43,12 +43,22 @@ app.use(express.urlencoded({ extended:true
 }))
 
 
+//usable variables
+let likeRecord = []
+
+
 // Define routes for handling news operations
 app.get("/upload" , (req,res) =>{
     res.sendFile(path.join(__dirname,"secret.html"))
 })
 // Example route for retrieving news
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+   likeRecord=[]
+   let rec = await News.find()
+   rec.forEach(article=>{
+    likeRecord.push({id:JSON.stringify(article._id).slice(1,JSON.stringify(article._id).length-1),like:article.like,dislike:article.dislike})
+   })
+   console.log("LIKEREC",likeRecord)
    res.sendFile(path.join(__dirname,"news.html"))
 });
 // get pussy put delete
@@ -78,21 +88,48 @@ app.post('/api/upload', async (req, res) => {
 });
 
 //----------------STATIC POSTS ONE TIME---------------------
-async function dyn(){
-    // for ()
-    let time = new Date().toLocaleString();
-    let check = await News.find({title:"gg"})
-    if (check.length==0){
+     function dyn(){
+    //each static thingy
+    let staticTitles = ["Sports!", "2nd year's Internships!","TAM VX (Group discussion)",
+   "Successfully Conducted Nirvana Fest by Street Cause", "St martin's New Creation",
+   "Website Launching Soon!!!"] 
+    staticTitles.forEach(async post=>{
 
-        let newsItem = new News({ title:"gg", 
-        content:"testing this one to ad the like button and use it on the static generated posts as well", 
-        time });
-        await newsItem.save();
-    }
+        let time = new Date().toLocaleString();
+        let check = await News.find({title:post})
+        if (check.length==0){    
+            let newsItem = new News({ title:post});
+            await newsItem.save();
+        }
+    }) 
+
 }
 
 dyn()
 
+
+app.post("/like",(req,res)=>{
+    console.log(req.body) 
+    
+    // let updateRecord = []
+    // let halfKeys = []
+    // Object.keys(req.body).forEach(thumb=>{   //getting ids of all posts, called half because like+dislike made it double
+    //     // console.log(thumb.slice(3))
+    //     if (thumb.startsWith('lik')){
+    //         halfKeys.push(thumb.slice(3))
+    //     }
+    // })
+
+    // halfKeys.forEach(post=>{     //creating a similar obj to store likes and dislike as in get('/') to compare and then update db
+    //     updateRecord.push({id:post,like:parseInt(req.body["lik"+post]),dislike:parseInt(req.body["dis"+post])})
+    // })
+    // console.log("UpdatedLikes:",updateRecord)
+
+    //comparing each object, if we find difference we update db
+    
+
+
+})
 
 
 
@@ -111,9 +148,6 @@ app.post("/delete", async (req,res) => {
 })
 
 
-app.post("/like",(req,res)=>{
-
-})
 
 app.post("/pass",(req,res)=>{
     let pass = "undercook" 
