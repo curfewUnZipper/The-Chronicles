@@ -13,9 +13,6 @@ var datetime = "Last Sync: " + currentdate.getDate() + "/"
                 + currentdate.getSeconds();
 
 
-
-
-
 // Connect to MongoDB
 mongoose.connect("mongodb+srv://BhargavPattanayak:bhargav00007@cluster0.npaegrt.mongodb.net/chronicles", { useNewUrlParser: true, useUnifiedTopology: true });
 // Define MongoDB Schema and Model for News
